@@ -5,7 +5,7 @@ var imgCanvas;
 var wavesurfer;
 
 window.onload = function() {
-  document.getElementById("user_pic").addEventListener('change', fileChange, false);
+  document.getElementById("user_upload").addEventListener('change', fileChange, false);
   imgCanvas = new kImage();
 
   wavesurfer = WaveSurfer.create({
@@ -43,9 +43,11 @@ function make_wave() {
 function fileChange(e) {
   t0 = performance.now();
   var file = e.target.files[0];
-  imgCanvas.canvas = document.getElementById("image_load");
+  // imgCanvas.canvas = document.getElementById("image_load");
+  var imgElem = document.getElementById("user_loaded_image");
   imgCanvas.load_file(file, function () {
     imgCanvas.grayscale();
+    imgElem.src = imgCanvas.img.src;
     // imgCanvas.draw();
     // var data = imgCanvas.generate_audio();
     console.log(performance.now() - t0, "milliseconds");
@@ -54,4 +56,30 @@ function fileChange(e) {
     // document.write("<a href='"+url+"'>play</a>");
 
   });
+}
+
+function dragOverHandler(ev) {
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+}
+
+function dropHandler(ev) {
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+
+  if (ev.dataTransfer.items) {
+    // Use DataTransferItemList interface to access the file(s)
+    for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+      // If dropped items aren't files, reject them
+      if (ev.dataTransfer.items[i].kind === 'file') {
+        var file = ev.dataTransfer.items[i].getAsFile();
+        console.log('... file[' + i + '].name = ' + file.name);
+      }
+    }
+  } else {
+    // Use DataTransfer interface to access the file(s)
+    for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+      console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
+    }
+  }
 }
