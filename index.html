@@ -61,7 +61,7 @@
     <div class="custom-file">
       <input type="file" class="custom-file-input" id="user_upload"
         aria-describedby="inputGroupFileAddon01">
-      <label class="custom-file-label" for="inputGroupFile01">Choose file...</label>
+      <label id="file_label" class="custom-file-label" for="inputGroupFile01">Choose file...</label>
     </div>
   </div>
   <div id="drop_zone" class="btn btn-primary " ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
@@ -71,15 +71,17 @@
     </div>
     <img src="" id="user_loaded_image">
   </div>
+  <br>
   <div id="waveform"></div>
-  <button class="btn btn-primary btn-lg " onclick="wavesurfer.playPause();"><i id="play_pause_icon" class="fa fa-play" aria-hidden="true"></i></button>
-  <button id="convert" class="btn btn-primary btn-lg " onclick="make_wave()">Convert</button>
-  <a class="btn btn-success btn-lg "><i id="download" class="fa fa-download" aria-hidden="true"></i></a>
+  <hr>
+  <button id="play_pause" class="btn btn-primary btn-lg " onclick="wavesurfer.playPause();"><i class="fa fa-play" aria-hidden="true"></i></button>
+  <button id="convert" class="btn btn-primary btn-lg " onclick="convert()">Convert</button>
+  <a id="download" class="btn btn-success btn-lg text-white"><i class="fa fa-download" aria-hidden="true"></i></a>
   <hr>
   <div>
     <h1>Settings for Nerds</h1>
   </div>
-
+  <canvas id="spectogram"></canvas>
 </div>
 </div>
 </div>

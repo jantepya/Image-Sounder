@@ -111,28 +111,3 @@ Wav.prototype.getWavInt16Array = function(buffer){
 
 	return intBuffer;
 };
-// var i=0, vol=0.1,
-//     sampleRate = 44100,
-//     wav = new Wav({ channels: 1}),
-//     buffer = new Float32Array(sampleRate);
-//
-// while(i<sampleRate){
-//     if( parseInt(i/100) % 2 ){
-//         buffer[i] = -vol;
-//     }
-//     else {
-//         buffer[i] = vol;
-//     }
-//     i++;
-// }
-// wav.setBuffer(buffer);
-//
-// var srclist = [];
-// while( !wav.eof() ){
-//     srclist.push(wav.getBuffer(1000));
-// }
-//
-// var b = new Blob(srclist, {type:'audio/wav'});
-// var URLObject = window.webkitURL || window.URL;
-// var url = URLObject.createObjectURL(b);
-// document.write("<a href='"+url+"'>play</a>");
