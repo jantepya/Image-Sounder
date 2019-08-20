@@ -12,7 +12,8 @@ function kImage () {
     this.minfreq = 200;
     this.maxfreq = 20000;
     this.wavrate = 44100;
-    this.pxs = 500;
+    this.time = 3;
+    this.pxs = 900;
     this.depth = 1;
 
     this.load_img = function (img, onload) {
@@ -96,6 +97,46 @@ function kImage () {
       }
     }
 
+    this.generate_audio_data2 = function () {
+
+      var maxFreq = 0;
+
+      var sampleRate = this.wavrate;
+      var channels = 1;
+      var numSamples = Math.round(sampleRate * 2);
+      var tmpData = new Int32Array(numSamples);
+      var data = new Int16Array(numSamples);
+      var samplesPerPixel = Math.floor(numSamples / this.width);
+      var C = (this.maxfreq - this.minfreq) / this.height;
+      var yFactor = 1;
+
+      for (var x = 0; x < numSamples; x++) {
+            var rez = 0;
+            var pixel_x = Math.floor(x / samplesPerPixel);
+
+            for (var y = 0; y < this.height; y += yFactor) {
+                var pixel_index = (y * this.width + pixel_x) * 4;
+                var r = this.bitmap.data[pixel_index];
+
+                var volume = Math.pow(3 * r * 100 / 765, 2);
+
+                var freq = Math.round(C * (this.height - y + 1));
+                rez += Math.floor(r * Math.cos(freq * 6.28 * x / sampleRate));
+            }
+
+            tmpData[x] = rez;
+
+            if (Math.abs(rez) > maxFreq) {
+                maxFreq = Math.abs(rez);
+            }
+        }
+
+        for (var i = 0; i < tmpData.length; i++) {
+            data[i] = (32767 * tmpData[i] / maxFreq); //32767
+        }
+        return data;
+    }
+
     this.generate_audio_data = function () {
 
       var samplerate = this.wavrate;
@@ -107,14 +148,14 @@ function kImage () {
       var fpx = Math.floor(samples);
       var freqrange = this.maxfreq - this.minfreq;
       var interval = freqrange / this.height;
-      var data = new Int16Array(this.width*fpx);
+      var data = new Int32Array(this.width*fpx);
       console.log("fpx:",samples);
       console.log("interval:",fpx);
 
       // helper function
       function genwave(frequency, amplitude) {
         var cycles = samples * frequency / samplerate;
-        var a = new Int16Array(fpx);
+        var a = new Int32Array(fpx);
         for (var i=0; i<fpx; i++) {
           var x = Math.sin(cycles * 2 * Math.PI * i / samples) * amplitude;
           a[i] = Math.floor(x);
@@ -125,7 +166,7 @@ function kImage () {
       var inc = 4 * this.depth;
       // loop through pixels
       for (var x=0; x<4*this.width; x+=4) {
-        var dx = x*this.height;
+
         var xi = (x/4)*fpx;
         var row = [];
 
@@ -141,6 +182,7 @@ function kImage () {
 
         for (var i=0; i<fpx; i++) {
           for (var j=0; j<row.length; j++) {
+            if (row[j][i] > 32767 || row[j][i] < -32768) 
             data[i+xi] += row[j][i];
           }
         }
@@ -167,7 +209,7 @@ function kImage () {
     // }
 
     this.riff_wave = function () {
-      var audio_data = this.generate_audio_data();
+      var audio_data = this.generate_audio_data2();
       console.log(audio_data);
       var sampleBits = 16;
       var numChannels=1;
