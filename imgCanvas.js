@@ -99,98 +99,98 @@ function imgCanvas () {
       }
     }
 
-    this.generate_audio_data2 = function () {
+    // this.generate_audio_data2 = function () {
 
-      var maxFreq = 0;
+    //   var maxFreq = 0;
 
-      var sampleRate = this.wavrate;
-      var channels = 1;
-      var numSamples = Math.round(sampleRate * this.time);
-      var tmpData = new Int32Array(numSamples);
-      var data = new Int16Array(numSamples);
-      var samplesPerPixel = Math.floor(numSamples / this.width);
-      var C = (this.maxfreq - this.minfreq) / this.height;
-      var yFactor = 1;
+    //   var sampleRate = this.wavrate;
+    //   var channels = 1;
+    //   var numSamples = Math.round(sampleRate * this.time);
+    //   var tmpData = new Int32Array(numSamples);
+    //   var data = new Int16Array(numSamples);
+    //   var samplesPerPixel = Math.floor(numSamples / this.width);
+    //   var C = (this.maxfreq - this.minfreq) / this.height;
+    //   var yFactor = 1;
 
-      for (var x = 0; x < numSamples; x++) {
-            var rez = 0;
-            var pixel_x = Math.floor(x / samplesPerPixel);
+    //   for (var x = 0; x < numSamples; x++) {
+    //         var rez = 0;
+    //         var pixel_x = Math.floor(x / samplesPerPixel);
 
-            for (var y = 0; y < this.height; y += yFactor) {
-                var pixel_index = (y * this.width + pixel_x) * 4;
-                var r = this.bitmap.data[pixel_index];
+    //         for (var y = 0; y < this.height; y += yFactor) {
+    //             var pixel_index = (y * this.width + pixel_x) * 4;
+    //             var r = this.bitmap.data[pixel_index];
 
-                var volume = Math.pow(3 * r * 100 / 765, 2);
+    //             var volume = Math.pow(3 * r * 100 / 765, 2);
 
-                var freq = Math.round(C * (this.height - y + 1));
-                rez += Math.floor(r * Math.cos(freq * 6.28 * x / sampleRate));
-            }
+    //             var freq = Math.round(C * (this.height - y + 1));
+    //             rez += Math.floor(r * Math.cos(freq * 6.28 * x / sampleRate));
+    //         }
 
-            tmpData[x] = rez;
+    //         tmpData[x] = rez;
 
-            if (Math.abs(rez) > maxFreq) {
-                maxFreq = Math.abs(rez);
-            }
-        }
+    //         if (Math.abs(rez) > maxFreq) {
+    //             maxFreq = Math.abs(rez);
+    //         }
+    //     }
 
-        for (var i = 0; i < tmpData.length; i++) {
-            data[i] = (32767 * tmpData[i] / maxFreq); //32767
-        }
-        return data;
-    }
+    //     for (var i = 0; i < tmpData.length; i++) {
+    //         data[i] = (32767 * tmpData[i] / maxFreq); //32767
+    //     }
+    //     return data;
+    // }
 
-    this.generate_audio_data = function () {
+    // this.generate_audio_data = function () {
 
-      var samplerate = this.wavrate;
+    //   var samplerate = this.wavrate;
 
 
-      // var fpx = Math.floor(76440 / this.width);
+    //   // var fpx = Math.floor(76440 / this.width);
 
-      var samples = samplerate /this.pxs;
-      var fpx = Math.floor(samples);
-      var freqrange = this.maxfreq - this.minfreq;
-      var interval = freqrange / this.height;
-      var data = new Int32Array(this.width*fpx);
-      console.log("fpx:",samples);
-      console.log("interval:",fpx);
+    //   var samples = samplerate /this.pxs;
+    //   var fpx = Math.floor(samples);
+    //   var freqrange = this.maxfreq - this.minfreq;
+    //   var interval = freqrange / this.height;
+    //   var data = new Int32Array(this.width*fpx);
+    //   console.log("fpx:",samples);
+    //   console.log("interval:",fpx);
 
-      // helper function
-      function genwave(frequency, amplitude) {
-        var cycles = samples * frequency / samplerate;
-        var a = new Int32Array(fpx);
-        for (var i=0; i<fpx; i++) {
-          var x = Math.sin(cycles * 2 * Math.PI * i / samples) * amplitude;
-          a[i] = Math.floor(x);
-        }
-        return a;
-      }
+    //   // helper function
+    //   function genwave(frequency, amplitude) {
+    //     var cycles = samples * frequency / samplerate;
+    //     var a = new Int32Array(fpx);
+    //     for (var i=0; i<fpx; i++) {
+    //       var x = Math.sin(cycles * 2 * Math.PI * i / samples) * amplitude;
+    //       a[i] = Math.floor(x);
+    //     }
+    //     return a;
+    //   }
 
-      var inc = 4 * this.depth;
-      // loop through pixels
-      for (var x=0; x<4*this.width; x+=4) {
+    //   var inc = 4 * this.depth;
+    //   // loop through pixels
+    //   for (var x=0; x<4*this.width; x+=4) {
 
-        var xi = (x/4)*fpx;
-        var row = [];
+    //     var xi = (x/4)*fpx;
+    //     var row = [];
 
-        for (var y=0; y<4*this.height; y+=4) {
-            // assumes grayscale, so just takes R value
-            var amp = this.bitmap.data[y*this.height+x];
-            var yinv = this.height - (y/4) - 1;
+    //     for (var y=0; y<4*this.height; y+=4) {
+    //         // assumes grayscale, so just takes R value
+    //         var amp = this.bitmap.data[y*this.height+x];
+    //         var yinv = this.height - (y/4) - 1;
 
-            if (amp > 0) {
-              row.push(genwave( yinv * interval + this.minfreq, amp));
-            }
-        }
+    //         if (amp > 0) {
+    //           row.push(genwave( yinv * interval + this.minfreq, amp));
+    //         }
+    //     }
 
-        for (var i=0; i<fpx; i++) {
-          for (var j=0; j<row.length; j++) {
-            if (row[j][i] > 32767 || row[j][i] < -32768)
-            data[i+xi] += row[j][i];
-          }
-        }
-      }
-      return data;
-    }
+    //     for (var i=0; i<fpx; i++) {
+    //       for (var j=0; j<row.length; j++) {
+    //         if (row[j][i] > 32767 || row[j][i] < -32768)
+    //         data[i+xi] += row[j][i];
+    //       }
+    //     }
+    //   }
+    //   return data;
+    // }
 
     // this.make_wave = function () {
     //   var data = this.generate_audio_data();
@@ -210,58 +210,58 @@ function imgCanvas () {
     //   return url;
     // }
 
-    this.riff_wave = function () {
-      var audio_data = this.generate_audio_data2();
-      console.log(audio_data);
-      var sampleBits = 16;
-      var numChannels=1;
-      var sampleRate = 44100;
+    // this.riff_wave = function () {
+    //   var audio_data = this.generate_audio_data2();
+    //   console.log(audio_data);
+    //   var sampleBits = 16;
+    //   var numChannels=1;
+    //   var sampleRate = 44100;
 
-      var dataLength = audio_data.length * (sampleBits / 8);
-      var buffer = new ArrayBuffer(44 + dataLength);
-      var data = new DataView(buffer);
-      var offset = 0;
+    //   var dataLength = audio_data.length * (sampleBits / 8);
+    //   var buffer = new ArrayBuffer(44 + dataLength);
+    //   var data = new DataView(buffer);
+    //   var offset = 0;
 
-      var writeString = function (str) {
-          for (var i = 0; i < str.length; i++) {
-              data.setUint8(offset + i, str.charCodeAt(i));
-          }
-      }
+    //   var writeString = function (str) {
+    //       for (var i = 0; i < str.length; i++) {
+    //           data.setUint8(offset + i, str.charCodeAt(i));
+    //       }
+    //   }
 
-      writeString('RIFF'); offset += 4;
-      data.setUint32(offset, 36 + dataLength, true); offset += 4;
-      writeString('WAVE'); offset += 4;
-      writeString('fmt '); offset += 4;
-      data.setUint32(offset, 16, true); offset += 4;
-      data.setUint16(offset, 1, true); offset += 2;
-      data.setUint16(offset, numChannels, true); offset += 2;
-      data.setUint32(offset, sampleRate, true); offset += 4;
-      data.setUint32(offset, numChannels * sampleRate * (sampleBits / 8), true); offset += 4;
-      data.setUint16(offset, numChannels * (sampleBits / 8), true); offset += 2;
-      data.setUint16(offset, sampleBits, true); offset += 2;
-      writeString('data'); offset += 4;
-      data.setUint32(offset, dataLength, true); offset += 4;
+    //   writeString('RIFF'); offset += 4;
+    //   data.setUint32(offset, 36 + dataLength, true); offset += 4;
+    //   writeString('WAVE'); offset += 4;
+    //   writeString('fmt '); offset += 4;
+    //   data.setUint32(offset, 16, true); offset += 4;
+    //   data.setUint16(offset, 1, true); offset += 2;
+    //   data.setUint16(offset, numChannels, true); offset += 2;
+    //   data.setUint32(offset, sampleRate, true); offset += 4;
+    //   data.setUint32(offset, numChannels * sampleRate * (sampleBits / 8), true); offset += 4;
+    //   data.setUint16(offset, numChannels * (sampleBits / 8), true); offset += 2;
+    //   data.setUint16(offset, sampleBits, true); offset += 2;
+    //   writeString('data'); offset += 4;
+    //   data.setUint32(offset, dataLength, true); offset += 4;
 
-      if(sampleBits === 8) {
-          for (var i = 0; i < audio_data.length; i++, offset++) {
-              var s = Math.max(-1, Math.min(1, audio_data[i]));
-              var val = s < 0 ? s * 0x8000 : s * 0x7FFF;
-              val = parseInt(255 / (65535 / (val + 32768)));
-              data.setInt8(offset, val, true);
-          }
-      } else {
-          for (var i=0; i<audio_data.length; i++) {
-            data.setInt8(offset, audio_data[i] & 0xFF, true);
-            offset += 1;
-            data.setInt8(offset, (audio_data[i]>>8) & 0xFF, true);
-            offset += 1;
-          }
-      }
-      var blob = new Blob([data], {type: 'audio/x-wav'});
-      var url = URL.createObjectURL(blob);
-      return url;
+    //   if(sampleBits === 8) {
+    //       for (var i = 0; i < audio_data.length; i++, offset++) {
+    //           var s = Math.max(-1, Math.min(1, audio_data[i]));
+    //           var val = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    //           val = parseInt(255 / (65535 / (val + 32768)));
+    //           data.setInt8(offset, val, true);
+    //       }
+    //   } else {
+    //       for (var i=0; i<audio_data.length; i++) {
+    //         data.setInt8(offset, audio_data[i] & 0xFF, true);
+    //         offset += 1;
+    //         data.setInt8(offset, (audio_data[i]>>8) & 0xFF, true);
+    //         offset += 1;
+    //       }
+    //   }
+    //   var blob = new Blob([data], {type: 'audio/x-wav'});
+    //   var url = URL.createObjectURL(blob);
+    //   return url;
 
-    }
+    // }
 
     this.start_process = function (onload, onprogress) {
       if (window.Worker) {
@@ -302,8 +302,7 @@ function imgCanvas () {
 
     }
 
-    this.cancel_process = function () {
-      console.log("process cancellled :)");
+    this.cancel_process = function () { 
       this.audio_worker.terminate();
     }
 
