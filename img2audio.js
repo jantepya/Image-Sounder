@@ -15,12 +15,12 @@ window.onload = function() {
   wavesurfer = WaveSurfer.create({
     container: '#waveform',
     waveColor: 'grey',
-    barWidth: 2,
-    barHeight: 1, // the height of the wave
-    barGap: null, // the optional spacing
+    // barWidth: 2,
+    // barHeight: 1, // the height of the wave
+    // barGap: null, // the optional spacing
     progressColor: 'hsla(200, 100%, 30%, 0.5)',
     cursorColor: 'blue',
-    barWidth: 3,
+    // barWidth: 3,
     height: 80,
     responsive: true,
     normalize: true,
@@ -38,11 +38,17 @@ window.onload = function() {
 function convert() {
   $("#convert").attr("disabled", true);
 
+
+  imgCanvas.wavrate = $("#sample_rate").val();
+  imgCanvas.maxfreq = $("#maxfreq").val();
+  imgCanvas.minfreq = $("#minfreq").val();
+  imgCanvas.time = $("#sample_duration").val();
+  imgCanvas.depth = $("#sample_depth").val();
+
   t0 = performance.now();
   //var url = imgCanvas.make_wave();
   var url = imgCanvas.riff_wave();
   console.log(performance.now() - t0, "milliseconds");
-
 
 
   // var canvas = document.getElementById("spectogram");

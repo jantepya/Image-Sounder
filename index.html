@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/wavesurfer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script><script src="https://unpkg.com/wavesurfer.js"></script>
 <script type="text/javascript" src="kImage.js"></script>
-<script type="text/javascript" src="makewav.js"></script>
 <script type="text/javascript" src="img2audio.js"></script>
 
 <title>Image Sounder</title>
@@ -25,10 +26,12 @@
   opacity: 0.7;
 }
 #drag_drop_tag {
-
-  margin-top: 65px;
+  margin-top: 25px;
 }
 
+input[type=number] {
+  width: 7em;
+}
 
 #drop_zone {
   /* color : white; */
@@ -38,7 +41,7 @@
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   width:  100%;
-  height: 300px;
+  height: 200px;
   max-height: 400px;
   /* background-color: #007bff; */
 }
@@ -49,14 +52,17 @@
   padding-bottom: 15px;
 }
 
+.main {
+  max-width: 500px;
+}
+
 </style>
 </head>
 <body>
 <br/>
 
-<div class="container">
-<div class="row justify-content-center text-center">
-<div class="col-md-6 ">
+<div class="container main text-center">
+
   <div class="input-group">
     <div class="custom-file">
       <input type="file" class="custom-file-input" id="user_upload"
@@ -64,6 +70,8 @@
       <label id="file_label" class="custom-file-label" for="inputGroupFile01">Choose file...</label>
     </div>
   </div>
+
+
   <div id="drop_zone" class="btn btn-primary " ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
     <div id="drag_drop_tag" class="align-items-center">
       <span><i class="fa fa-upload fa-5x" aria-hidden="true"></i></span>
@@ -71,26 +79,91 @@
     </div>
     <img src="" id="user_loaded_image">
   </div>
+
   <br>
   <div id="waveform"></div>
   <hr>
+
   <button id="play_pause" class="btn btn-primary btn-lg " onclick="wavesurfer.playPause();"><i class="fa fa-play" aria-hidden="true"></i></button>
   <button id="convert" class="btn btn-primary btn-lg " onclick="convert()">Convert</button>
   <a id="download" class="btn btn-success btn-lg text-white"><i class="fa fa-download" aria-hidden="true"></i></a>
   <hr>
-  <div>
-    <h1>Settings for Nerds</h1>
+
+
+  <div id="accordion">
+
+    <div class="card">
+      <div class="card-header">
+        <a class="card-link" data-toggle="collapse" href="#collapseOne">
+          Settings for Nerds
+        </a>
+      </div>
+      <div id="collapseOne" class="collapse show" data-parent="#accordion">
+
+        <div class="card-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>
+                  Sample Rate
+                </th>
+                <td>
+                  <select name="Sample Rate" id="sample_rate">
+                   <option value="32000">32000 kHz</option>
+                   <option value="44100" selected>44100 kHz</option>
+                   <option value="48000">48000 kHz</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th>Time</th>
+                <td>
+                  <input type="number" name="Time" id="sample_duration" min="0.5" max="6" value="2">
+                <td>
+              <tr>
+
+              <tr>
+                <th>Depth</th>
+                <td>
+                  <input type="number" name="Depth" id="sample_depth" min="1" max="4" value="1" step="1">
+                </td>
+              </tr>
+
+              <tr>
+                <th>Min Frequency (Hz)</th>
+                <td>
+                  <input type="number" name="minfreq" id="minfreq" min="0" max="20000" value="200" step="100">
+                </td>
+              </tr>
+              <tr>
+                <th>Max Frequency (Hz)</th>
+                <td>
+                  <input type="number" name="maxfreq" id="maxfreq" min="0" max="22000" value="20000" step="100">
+                </td>
+              </tr>
+
+
+
+
+
+
+
+          </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
   </div>
-  <canvas id="spectogram"></canvas>
-</div>
-</div>
+
+  <!-- <canvas id="spectogram"></canvas> -->
+  <hr>
 </div>
 
 <!-- <canvas id="image_load"> -->
-<footer class="page-footer font-small blue">
-  <div class="footer-copyright text-center py-3">© 2019 :
-    Made by Jon
-  </div>
+
+<footer>
+  <div class="text-center py-3">2019 Jon</div>
 </footer>
 </body>
 </html>

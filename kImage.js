@@ -12,7 +12,7 @@ function kImage () {
     this.minfreq = 200;
     this.maxfreq = 20000;
     this.wavrate = 44100;
-    this.time = 3;
+    this.time = 2;
     this.pxs = 900;
     this.depth = 1;
 
@@ -103,7 +103,7 @@ function kImage () {
 
       var sampleRate = this.wavrate;
       var channels = 1;
-      var numSamples = Math.round(sampleRate * 2);
+      var numSamples = Math.round(sampleRate * this.time);
       var tmpData = new Int32Array(numSamples);
       var data = new Int16Array(numSamples);
       var samplesPerPixel = Math.floor(numSamples / this.width);
@@ -182,7 +182,7 @@ function kImage () {
 
         for (var i=0; i<fpx; i++) {
           for (var j=0; j<row.length; j++) {
-            if (row[j][i] > 32767 || row[j][i] < -32768) 
+            if (row[j][i] > 32767 || row[j][i] < -32768)
             data[i+xi] += row[j][i];
           }
         }
