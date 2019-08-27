@@ -32,6 +32,16 @@ window.onload = function() {
   wavesurfer.on('play', function () {
     $("#play_pause").html('<i class="fa fa-pause" aria-hidden="true"></i>');
   });
+
+  $(".card-header").click( function ( e ) {
+    console.log(e);
+    if (e.target.className === "card-header") {
+      e.target.className = "card-header active"
+    }
+    else {
+      e.target.className = "card-header"
+    }
+  });
 }
 
 
