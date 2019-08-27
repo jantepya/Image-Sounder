@@ -46,9 +46,24 @@ window.onload = function() {
 }
 
 
-function convert() {
-  $("#convert").attr("disabled", true);
+function reset_view() {
+  $("#progress_bar").hide();
+  $("#progress_bar").css({ "width": "0%"});
+  $("#progress_bar").text( "" );
 
+  $("#convert").text("Convert");
+  $("#convert").attr("onclick","convert()");
+}
+
+function cancel_convert() {
+  imgCanvas.cancel_process();
+  reset_view();
+}
+
+function convert() {
+  // $("#convert").attr("disabled", true);
+  $("#convert").text("Cancel");
+  $("#convert").attr("onclick","cancel_convert()");
 
   imgCanvas.wavrate = $("#sample_rate").val();
   imgCanvas.maxfreq = $("#maxfreq").val();
@@ -66,9 +81,8 @@ function convert() {
   // imgCanvas.canvas = canvas;
   // imgCanvas.draw();
   function onload ( url ) {
-    $("#progress_bar").hide();
-    $("#progress_bar").css({ "width": "0%"});
-    $("#progress_bar").text( "" );
+
+    reset_view();
 
     wavesurfer.on('ready', function () {
         $("#play_pause").attr("disabled", false);

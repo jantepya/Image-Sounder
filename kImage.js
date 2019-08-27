@@ -16,6 +16,8 @@ function kImage () {
     this.pxs = 900;
     this.depth = 1;
 
+    this.audio_worker = null;
+
     this.load_img = function (img, onload) {
         var canv = document.createElement('canvas');
 
@@ -270,14 +272,17 @@ function kImage () {
           if (e.data.status === "ok") {
             try {
               onload( e.data.data );
-            } catch { }
+            } catch ( e ) { 
+              console.log( "Image Sounder: onload error" );
+            }
           }
           else if (e.data.status === "progress") {
             try {
               onprogress( e.data.progress );
-            } catch { }
+            } catch ( e ) { 
+              console.log( "Image Sounder: onprogress error" );
+            }
           }
-
       	}
 
         var data = {
@@ -289,12 +294,17 @@ function kImage () {
         }
 
         myWorker.postMessage(data);
-
+        this.audio_worker = myWorker;
       } else {
       	console.log('Your browser doesn\'t support web workers.')
       }
 
 
+    }
+
+    this.cancel_process = function () {
+      console.log("process cancellled :)");
+      this.audio_worker.terminate();
     }
 
 }
