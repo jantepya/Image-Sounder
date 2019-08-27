@@ -3,7 +3,7 @@
 // August 2019
 // Helper object for image manipulation
 
-function kImage () {
+function imgCanvas () {
     this.height = 0;
     this.width = 0;
     this.bitmap = null;

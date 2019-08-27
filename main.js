@@ -10,7 +10,7 @@ window.onload = function() {
   $("#convert").attr("disabled", true);
   $("#download").hide();
   $("#user_upload").change(fileChange);
-  imgCanvas = new kImage();
+  imgCanvas = new imgCanvas();
 
 
 
