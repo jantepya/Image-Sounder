@@ -4,7 +4,7 @@ onmessage = function(e) {
 
   var t0 = performance.now();
   var audio_data = generate_audio_data( e.data );
-  
+
   var wave_file = generate_wave( audio_data , e.data.wavrate );
 
   console.log(performance.now() - t0, "milliseconds");
@@ -29,12 +29,11 @@ function generate_audio_data( data ) {
   var channels = 1;
   var numSamples = Math.round(sampleRate * duration);
 
-
   var tmpData = new Int32Array(numSamples);
   var data = new Int16Array(numSamples);
   var samplesPerPixel = Math.floor(numSamples / width);
   var C = (maxfreq - minfreq) / height;
-  var yFactor = 1;
+  var yFactor = 2;
 
   var percent = Math.floor(numSamples/100);
 

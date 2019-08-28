@@ -265,21 +265,21 @@ function imgCanvas () {
 
     this.start_process = function (onload, onprogress) {
       if (window.Worker) {
-        var myWorker = new Worker('./audioWorker.js');
+        var myWorker = new Worker('./src/audioWorker.js');
 
         myWorker.onmessage = function(e) {
 
           if (e.data.status === "ok") {
             try {
               onload( e.data.data );
-            } catch ( e ) { 
+            } catch ( e ) {
               console.log( "Image Sounder: onload error" );
             }
           }
           else if (e.data.status === "progress") {
             try {
               onprogress( e.data.progress );
-            } catch ( e ) { 
+            } catch ( e ) {
               console.log( "Image Sounder: onprogress error" );
             }
           }
@@ -302,7 +302,7 @@ function imgCanvas () {
 
     }
 
-    this.cancel_process = function () { 
+    this.cancel_process = function () {
       this.audio_worker.terminate();
     }
 
