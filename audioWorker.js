@@ -1,13 +1,11 @@
 
 // ---- Main Function  -----
 onmessage = function(e) {
-  // console.log('Worker: Message received from main script');
 
-
-  var audio_data = generate_audio_data( e.data );
   var t0 = performance.now();
+  var audio_data = generate_audio_data( e.data );
+  
   var wave_file = generate_wave( audio_data , e.data.wavrate );
-  // console.log(maxfreq, minfreq, duration, sample_rate, width, height);
 
   console.log(performance.now() - t0, "milliseconds");
 
