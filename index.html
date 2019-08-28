@@ -10,7 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script><script src="https://unpkg.com/wavesurfer.js"></script>
 <script type="text/javascript" src="kImage.js"></script>
-<script type="text/javascript" src="img2audio.js"></script>
+<script type="text/javascript" src="main.js"></script>
 
 <title>Image Sounder</title>
 
@@ -61,6 +61,25 @@ input[type=number] {
   background-color: #007bff;
 }
 
+#progress_status {
+  float:right;
+}
+
+#waveform {
+  position:relative
+
+}
+#progress_bar {
+  float:left;
+  position:absolute;
+  top:calc(50% - 12.5px);
+  width:0%;
+  height:25px;
+  background-color: #28a745;
+  border-radius:5px;
+  color:white;
+}
+
 </style>
 </head>
 <body>
@@ -86,7 +105,7 @@ input[type=number] {
   </div>
 
   <br>
-  <div id="waveform"></div>
+  <div id="waveform"><div id="progress_bar" style="display:none"></div></div>
   <hr>
 
   <button id="play_pause" class="btn btn-primary btn-lg " onclick="wavesurfer.playPause();"><i class="fa fa-play" aria-hidden="true"></i></button>

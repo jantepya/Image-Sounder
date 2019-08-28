@@ -261,4 +261,40 @@ function kImage () {
 
     }
 
+    this.start_process = function (onload, onprogress) {
+      if (window.Worker) {
+        var myWorker = new Worker('./audioWorker.js');
+
+        myWorker.onmessage = function(e) {
+
+          if (e.data.status === "ok") {
+            try {
+              onload( e.data.data );
+            } catch { }
+          }
+          else if (e.data.status === "progress") {
+            try {
+              onprogress( e.data.progress );
+            } catch { }
+          }
+
+      	}
+
+        var data = {
+          "bitmap": this.bitmap,
+          "wavrate": this.wavrate,
+          "time": this.time,
+          "minfreq": this.minfreq,
+          "maxfreq": this.maxfreq
+        }
+
+        myWorker.postMessage(data);
+
+      } else {
+      	console.log('Your browser doesn\'t support web workers.')
+      }
+
+
+    }
+
 }

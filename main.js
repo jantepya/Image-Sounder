@@ -12,6 +12,8 @@ window.onload = function() {
   $("#user_upload").change(fileChange);
   imgCanvas = new kImage();
 
+
+
   wavesurfer = WaveSurfer.create({
     container: '#waveform',
     waveColor: 'grey',
@@ -34,7 +36,6 @@ window.onload = function() {
   });
 
   $(".card-header").click( function ( e ) {
-    console.log(e);
     if (e.target.className === "card-header") {
       e.target.className = "card-header active"
     }
@@ -55,23 +56,37 @@ function convert() {
   imgCanvas.time = $("#sample_duration").val();
   imgCanvas.depth = $("#sample_depth").val();
 
-  t0 = performance.now();
+  // t0 = performance.now();
   //var url = imgCanvas.make_wave();
-  var url = imgCanvas.riff_wave();
-  console.log(performance.now() - t0, "milliseconds");
+  // var url = imgCanvas.riff_wave();
+  // console.log(performance.now() - t0, "milliseconds");
 
 
   // var canvas = document.getElementById("spectogram");
   // imgCanvas.canvas = canvas;
   // imgCanvas.draw();
+  function onload ( url ) {
+    $("#progress_bar").hide();
+    $("#progress_bar").css({ "width": "0%"});
+    $("#progress_bar").text( "" );
 
-  wavesurfer.on('ready', function () {
-      $("#play_pause").attr("disabled", false);
-      $("#download").attr("href", url);
-      $("#download").show();
-  });
+    wavesurfer.on('ready', function () {
+        $("#play_pause").attr("disabled", false);
+        $("#download").attr("href", url);
+        $("#download").show();
+    });
 
-  wavesurfer.load(url);
+    wavesurfer.load(url);
+  }
+
+  function onprogress ( i ) {
+    $("#progress_bar").css({ "width": i+"%"});
+    $("#progress_bar").text( i + "%");
+  }
+
+  imgCanvas.start_process( onload , onprogress);
+
+  $("#progress_bar").show();
 }
 
 function load_image(file) {
