@@ -59,13 +59,14 @@ function cancel_convert() {
 }
 
 function validate_number( e ) {
+
   if ( isNaN( e.value) || e.value === "" ) {
     $( "#" + e.id ).val( e.defaultValue );
   }
-  else if ( e.value < e.min ) {
+  else if ( parseFloat( e.value ) < parseFloat( e.min ) ) {
     $( "#" + e.id ).val( e.min );
   }
-  else if ( e.value > e.max ) {
+  else if ( parseFloat(e.value) > parseFloat(e.max) ) {
     $( "#" + e.id ).val( e.max );
   }
 }
@@ -77,7 +78,6 @@ function validate_integer( e ) {
 
 /// convert img to audio
 function convert() {
-
   imgCanvas.wavrate = $("#sample_rate").val();
   imgCanvas.maxfreq = $("#maxfreq").val();
   imgCanvas.minfreq = $("#minfreq").val();
@@ -95,7 +95,7 @@ function convert() {
     wavesurfer.on('ready', function () {
         $("#play_pause").attr("disabled", false);
         $("#download").attr("href", url);
-        $("#download").attr("download", "audio.wav");
+        $("#download").attr("download", imgCanvas.name + ".wav");
         $("#download").show();
     });
 
@@ -121,6 +121,9 @@ function load_image(file) {
   $("#file_label").text(file.name);
   var imgElem = document.getElementById("user_loaded_image");
 
+  var i = file.name.lastIndexOf(".");
+  imgCanvas.name = file.name.substring(0, i);
+
   imgCanvas.load_file(file, function () {
     $("#convert").attr("disabled", false);
 
@@ -137,7 +140,10 @@ function load_image(file) {
 function fileChange(e) {
 
   var file = e.target.files[0];
-  load_image(file);
+
+  if ( file.type === "image/png" || file.type === "image/jpeg" ) {
+    load_image(file);
+  }
 }
 
 function dragOverHandler(ev) {

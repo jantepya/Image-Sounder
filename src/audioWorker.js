@@ -18,10 +18,11 @@ function generate_audio_data( data ) {
   var img_data = data["bitmap"].data;
   var width = data["bitmap"].width;
   var height = data["bitmap"].height;
-  var sampleRate = data["wavrate"];
-  var duration = data["time"];
-  var minfreq = data["minfreq"];
-  var maxfreq = data["maxfreq"];
+  var sampleRate = parseFloat( data["wavrate"] );
+  var duration = parseFloat( data["time"] );
+  var minfreq = parseFloat( data["minfreq"] );
+  var maxfreq = parseFloat( data["maxfreq"] );
+  var yFactor = parseInt( data["depth"] );
 
   //////////////////////////////////////////
 
@@ -33,7 +34,6 @@ function generate_audio_data( data ) {
   var data = new Int16Array(numSamples);
   var samplesPerPixel = Math.floor(numSamples / width);
   var C = (maxfreq - minfreq) / height;
-  var yFactor = 1;
 
   var percent = Math.floor(numSamples/100);
 
