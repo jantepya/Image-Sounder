@@ -33,7 +33,7 @@ function generate_audio_data( data ) {
   var data = new Int16Array(numSamples);
   var samplesPerPixel = Math.floor(numSamples / width);
   var C = (maxfreq - minfreq) / height;
-  var yFactor = 2;
+  var yFactor = 1;
 
   var percent = Math.floor(numSamples/100);
 

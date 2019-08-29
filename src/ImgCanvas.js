@@ -85,6 +85,24 @@ function imgCanvas () {
       this.bitmap = imagedata;
     }
 
+    this.resize = function ( newWidth, newHeight ) {
+      var imagedata = new ImageData( newWidth, newHeight);
+
+
+      var oc = document.createElement('canvas'),
+      octx = oc.getContext('2d');
+
+      oc.width = newWidth;
+      oc.height = newHeight;
+      octx.drawImage(this.img, 0, 0, oc.width , oc.height );
+
+
+      this.bitmap = octx.getImageData(0, 0, newWidth, newHeight);
+      this.width = newWidth;
+      this.height = newHeight;
+
+    }
+
 
     this.draw = function () {
       if (this.canvas.getContext) {
@@ -263,9 +281,9 @@ function imgCanvas () {
 
     // }
 
-    this.start_process = function (onload, onprogress) {
+    this.start_process = function ( process, onload, onprogress) {
       if (window.Worker) {
-        var myWorker = new Worker('./src/audioWorker.js');
+        var myWorker = new Worker( process );
 
         myWorker.onmessage = function(e) {
 
@@ -302,7 +320,7 @@ function imgCanvas () {
 
     }
 
-    this.cancel_process = function () {
+    this.kill_process = function () {
       this.audio_worker.terminate();
     }
 

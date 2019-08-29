@@ -42,6 +42,7 @@ window.onload = function() {
 }
 
 
+/// After loading is done or cancelled
 function reset_view() {
   $("#progress_bar").hide();
   $("#progress_bar").css({ "width": "0%"});
@@ -51,11 +52,13 @@ function reset_view() {
   $("#convert").attr("onclick","convert()");
 }
 
+
 function cancel_convert() {
-  imgCanvas.cancel_process();
+  imgCanvas.kill_process();
   reset_view();
 }
 
+/// convert img to audio
 function convert() {
   $("#convert").text("Cancel");
   $("#convert").attr("onclick","cancel_convert()");
@@ -69,6 +72,7 @@ function convert() {
   function onload ( url ) {
 
     reset_view();
+    imgCanvas.kill_process();
 
     wavesurfer.on('ready', function () {
         $("#play_pause").attr("disabled", false);
@@ -84,11 +88,13 @@ function convert() {
     $("#progress_bar").text( i + "%");
   }
 
-  imgCanvas.start_process( onload , onprogress);
+  imgCanvas.start_process( './src/audioWorker.js', onload , onprogress);
 
   $("#progress_bar").show();
 }
 
+
+/// load and display image
 function load_image(file) {
   $("#drag_drop_tag").hide();
   $("#drop_zone").css({"height": "auto", "background-color": "white"});
@@ -98,8 +104,12 @@ function load_image(file) {
   imgCanvas.load_file(file, function () {
     $("#convert").attr("disabled", false);
 
+    imgCanvas.resize( 440, 400 );
     imgCanvas.grayscale();
     imgElem.src = imgCanvas.img.src;
+
+    // imgCanvas.canvas = document.getElementById("spectogram");
+    // imgCanvas.draw();
 
   });
 }
