@@ -76,27 +76,27 @@
               <tr>
                 <th>Time</th>
                 <td>
-                  <input type="number" name="Time" id="sample_duration" min="0.5" max="6" value="2" step="0.5">
+                  <input type="number" name="Time" id="sample_duration" min="0.5" max="6" value="2" step="0.5" onchange="validate_number( this );">
                 <td>
               <tr>
 
               <tr>
                 <th>Depth</th>
                 <td>
-                  <input type="number" name="Depth" id="sample_depth" min="1" max="4" value="1" step="1">
+                  <input type="number" name="Depth" id="sample_depth" min="1" max="5" value="2" step="1" onchange="validate_number( this ); validate_integer( this );">
                 </td>
               </tr>
 
               <tr>
                 <th>Min Frequency (Hz)</th>
                 <td>
-                  <input type="number" name="minfreq" id="minfreq" min="0" max="20000" value="200" step="100">
+                  <input type="number" name="minfreq" id="minfreq" min="0" max="20000" value="200" step="100" onchange="validate_number( this );">
                 </td>
               </tr>
               <tr>
                 <th>Max Frequency (Hz)</th>
                 <td>
-                  <input type="number" name="maxfreq" id="maxfreq" min="0" max="22000" value="20000" step="100">
+                  <input type="number" name="maxfreq" id="maxfreq" min="0" max="22000" value="20000" step="100" onchange="validate_number( this );">
                 </td>
               </tr>
           </tbody>

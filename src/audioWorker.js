@@ -3,6 +3,7 @@
 onmessage = function(e) {
 
   var t0 = performance.now();
+
   var audio_data = generate_audio_data( e.data );
 
   var wave_file = generate_wave( audio_data , e.data.wavrate );
@@ -11,7 +12,6 @@ onmessage = function(e) {
 
   postMessage({ "data":wave_file, "status":"ok" });
 }
-
 
 function generate_audio_data( data ) {
 
@@ -116,6 +116,7 @@ function generate_wave( audio_data, sampleRate ) {
       }
   }
   var blob = new Blob([data], {type: 'audio/x-wav'});
-  var url = URL.createObjectURL(blob);
-  return url;
+  return blob;
+  // var url = URL.createObjectURL(blob);
+  // return url;
 }

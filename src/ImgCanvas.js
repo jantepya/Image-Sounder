@@ -15,6 +15,7 @@ function imgCanvas () {
     this.time = 2;
     this.pxs = 900;
     this.depth = 1;
+    this.audio_blob = null;
 
     this.audio_worker = null;
 
@@ -289,7 +290,9 @@ function imgCanvas () {
 
           if (e.data.status === "ok") {
             try {
-              onload( e.data.data );
+              this.audio_blob = e.data.data;
+              var url = URL.createObjectURL(this.audio_blob);
+              onload( url );
             } catch ( e ) {
               console.log( "Image Sounder: onload error" );
             }

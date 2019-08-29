@@ -58,10 +58,25 @@ function cancel_convert() {
   reset_view();
 }
 
+function validate_number( e ) {
+  if ( isNaN( e.value) || e.value === "" ) {
+    $( "#" + e.id ).val( e.defaultValue );
+  }
+  else if ( e.value < e.min ) {
+    $( "#" + e.id ).val( e.min );
+  }
+  else if ( e.value > e.max ) {
+    $( "#" + e.id ).val( e.max );
+  }
+}
+
+function validate_integer( e ) {
+  $( "#" + e.id ).val( Math.floor( e.value ) );
+}
+
+
 /// convert img to audio
 function convert() {
-  $("#convert").text("Cancel");
-  $("#convert").attr("onclick","cancel_convert()");
 
   imgCanvas.wavrate = $("#sample_rate").val();
   imgCanvas.maxfreq = $("#maxfreq").val();
@@ -69,14 +84,18 @@ function convert() {
   imgCanvas.time = $("#sample_duration").val();
   imgCanvas.depth = $("#sample_depth").val();
 
+  $("#convert").text("Cancel");
+  $("#convert").attr("onclick","cancel_convert()");
+
+
   function onload ( url ) {
 
     reset_view();
 
-
     wavesurfer.on('ready', function () {
         $("#play_pause").attr("disabled", false);
         $("#download").attr("href", url);
+        $("#download").attr("download", "audio.wav");
         $("#download").show();
     });
 
