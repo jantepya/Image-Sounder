@@ -72,7 +72,7 @@ function convert() {
   function onload ( url ) {
 
     reset_view();
-    imgCanvas.kill_process();
+
 
     wavesurfer.on('ready', function () {
         $("#play_pause").attr("disabled", false);
@@ -81,6 +81,7 @@ function convert() {
     });
 
     wavesurfer.load(url);
+    imgCanvas.kill_process();
   }
 
   function onprogress ( i ) {
