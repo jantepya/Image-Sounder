@@ -12,8 +12,6 @@ window.onload = function() {
   $("#user_upload").change(fileChange);
   imgCanvas = new imgCanvas();
 
-
-
   wavesurfer = WaveSurfer.create({
     container: '#waveform',
     waveColor: 'grey',
@@ -130,10 +128,6 @@ function load_image(file) {
     imgCanvas.resize( 440, 400 );
     imgCanvas.grayscale();
     imgElem.src = imgCanvas.img.src;
-
-    // imgCanvas.canvas = document.getElementById("spectogram");
-    // imgCanvas.draw();
-
   });
 }
 

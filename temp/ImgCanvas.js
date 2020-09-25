@@ -3,7 +3,7 @@
 // August 2019
 // Helper object for image manipulation
 
-function imgCanvas () {
+const imgCanvas = function () {
     this.height = 0;
     this.width = 0;
     this.bitmap = null;
@@ -156,12 +156,9 @@ function imgCanvas () {
       } else {
       	console.log('Your browser doesn\'t support web workers.')
       }
-
-
     }
 
     this.kill_process = function () {
       this.audio_worker.terminate();
     }
-
 }

@@ -13,7 +13,7 @@ onmessage = function(e) {
   postMessage({ "data":wave_file, "status":"ok" });
 }
 
-function generate_audio_data( data ) {
+const generate_audio_data = function( data ) {
 
   var img_data = data["bitmap"].data;
   var width = data["bitmap"].width;
@@ -63,14 +63,12 @@ function generate_audio_data( data ) {
   }
 
   for (var i = 0; i < tmpData.length; i++) {
-      data[i] = (32767 * tmpData[i] / highest_freq); //32767
+      data[i] = (32767 * tmpData[i] / highest_freq);
   }
   return data;
-
-
 }
 
-function generate_wave( audio_data, sampleRate ) {
+const generate_wave = function ( audio_data, sampleRate ) {
 
   var sampleBits = 16;
   var numChannels = 1;
@@ -117,6 +115,4 @@ function generate_wave( audio_data, sampleRate ) {
   }
   var blob = new Blob([data], {type: 'audio/x-wav'});
   return blob;
-  // var url = URL.createObjectURL(blob);
-  // return url;
 }
