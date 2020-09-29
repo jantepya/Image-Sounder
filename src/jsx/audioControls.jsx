@@ -10,8 +10,6 @@ export default class AudioControls extends React.Component {
             playing: false,
             pos: 0,
         };
-        this.handleTogglePlay = this.handleTogglePlay.bind(this);
-        this.onConvertClicked = this.onConvertClicked.bind(this);
     }
 
     componentDidMount = function() {
@@ -24,13 +22,13 @@ export default class AudioControls extends React.Component {
         });
     }
     
-    handleTogglePlay() {
+    handleTogglePlay = () => {
         if (this.wavesurfer) {
             this.wavesurfer.playPause();
         }
     }
 
-    onConvertClicked = function () {
+    onConvertClicked = () => {
         this.props.onConvertClicked();
     }
 

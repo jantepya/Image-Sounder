@@ -18,12 +18,9 @@ export default class ImageDrop extends React.Component {
             showDragDropLabel: true,
             dropZoneStyle: null,
         }
-
-        this.readFile = this.readFile.bind(this);
-        this.dropHandler = this.dropHandler.bind(this);
     }
 
-    readFile = function (file) {
+    readFile = (file) => {
         if (file.type === "image/jpeg" || file.type === "image/png") {
 
             var reader = new FileReader();
@@ -44,7 +41,7 @@ export default class ImageDrop extends React.Component {
         }
     }
 
-    dropHandler = function (event) {
+    dropHandler = (event) => {
         // Prevent default behavior (Prevent file from being opened)
         event.preventDefault();
         if (event.dataTransfer.items) {
@@ -57,7 +54,7 @@ export default class ImageDrop extends React.Component {
         }
     }
 
-    dragOverHandler = function (event) {
+    dragOverHandler = (event) => {
         // Prevent default behavior (Prevent file from being opened)
         event.preventDefault();
     }
