@@ -71,9 +71,7 @@ const imgCanvas = function () {
 
           var gray = 0;
           if (a !== 0) {
-            //var gray = (r + g + b) / 3;
             var gray = 0.21*r + 0.72*g + 0.07*b;
-            // var gray = (Math.max(r,g,b) + Math.min(r,g,b))*0.5;
           }
 
           imagedata.data[i] = gray;
@@ -100,7 +98,6 @@ const imgCanvas = function () {
       this.bitmap = octx.getImageData(0, 0, newWidth, newHeight);
       this.width = newWidth;
       this.height = newHeight;
-
     }
 
 

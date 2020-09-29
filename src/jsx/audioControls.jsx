@@ -1,46 +1,68 @@
 
-import React from 'react';
-import Waveform from "./waveform.jsx";
+import React, {createRef } from 'react';
+import WaveSurfer from 'wavesurfer.js';
 
 export default class AudioControls extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
 
         this.state = {
             playing: false,
             pos: 0,
-            audioFile: null
         };
         this.handleTogglePlay = this.handleTogglePlay.bind(this);
-        this.handlePosChange = this.handlePosChange.bind(this);
+        this.onConvertClicked = this.onConvertClicked.bind(this);
+    }
+
+    componentDidMount = function() {
+        this.$el = this.wrapper.current;
+        this.$waveform = this.$el.querySelector('.wave')
+        this.wavesurfer = WaveSurfer.create({
+            container: this.$waveform,
+            waveColor: 'violet',
+            progressColor: 'purple'
+        });
     }
     
     handleTogglePlay() {
-        this.setState({
-            playing: !this.state.playing
-        });
+        if (this.wavesurfer) {
+            this.wavesurfer.playPause();
+        }
     }
 
-    handlePosChange(e) {
-        this.setState({
-            pos: e.originalArgs[0]
-        });
+    onConvertClicked = function () {
+        this.props.onConvertClicked();
     }
 
-    convertImageToAudio = function () {
-
-    }
+    wrapper = createRef();
 
     render = function () {
+
+        var isAudioEnabled = this.props.audioURL !== null;
+
+        var download = isAudioEnabled 
+            ? <a href={this.props.audioURL} className="btn btn-success btn-lg text-white"><i className="fa fa-download" aria-hidden="true" /> </a> 
+            : null;
+
+        if (this.wavesurfer && this.props.audioURL)
+        {
+            this.wavesurfer.load(this.props.audioURL);
+        }    
+
         return (
             <div>
-                <Waveform
-                    src={this.state.audioFile}
-                />
+                <div ref={this.wrapper}>
+                    <div className='wave'></div>
+                </div>
 
-                <button id="play_pause" className="btn btn-primary btn-lg " onClick={this.handleTogglePlay}><i className="fa fa-play" aria-hidden="true"></i></button>
-                <button id="convert" className="btn btn-primary btn-lg " onClick={this.convertImageToAudio}>Convert</button>
-                <a href="/#" id="download" className="btn btn-success btn-lg text-white"><i className="fa fa-download" aria-hidden="true" /> </a>
+                <hr />
+
+                <button disabled={!isAudioEnabled} className="btn btn-primary btn-lg " onClick={this.handleTogglePlay}><i className="fa fa-play" aria-hidden="true"></i></button>
+                <button disabled={!this.props.isImgLoaded} className="btn btn-primary btn-lg " onClick={this.onConvertClicked}>Convert</button>
+
+                {download}
+
+                <hr />
             </div>
         );
     }
