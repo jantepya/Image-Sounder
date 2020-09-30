@@ -66,9 +66,10 @@ export default class App extends React.Component {
     handleConversionProgress = (event) => {
         if (event.data.status === "progress") {
             try {
-                if (event.data.progress % 10 === 0) {
+                if (event.data.progress === 0 || event.data.progress % 10 === 0) {
                     this.setState({
-                        loadProgress: event.data.progress
+                        loadProgress: event.data.progress,
+                        audioURL: null,
                     });
                 }
             }
@@ -82,7 +83,7 @@ export default class App extends React.Component {
                 var url = URL.createObjectURL(audioBlob);
                 this.setState({
                     audioURL: url,
-                    loadProgress: 0
+                    loadProgress: 100,
                 });
             } 
             catch (event) {
@@ -134,7 +135,7 @@ export default class App extends React.Component {
                     onImageLoaded={this.onImageLoaded}
                 />
 
-                <ProgressBar animated now={this.state.loadProgress} max="100" />
+                <ProgressBar now={this.state.loadProgress} label={this.state.loadProgress + "%"} />
 
                 <br />
 

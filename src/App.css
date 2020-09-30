@@ -46,23 +46,3 @@ input[type=number] {
 	color: white;
 	background-color: #007bff;
 }
-
-#progress_status {
-	float:right;
-}
-
-#waveform {
-	position:relative
-}
-
-#progress_bar {
-	float:left;
-	position:absolute;
-	/* top:calc(100% - 25px);
-	width:0%;
-	height:20px;
-	background-color: #28a745;
-	border-radius:5px;
-	font-size: 0.8em;
-	font-weight: 700; */
-}

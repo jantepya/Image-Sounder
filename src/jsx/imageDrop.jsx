@@ -2,7 +2,7 @@ import React from 'react';
 
 const DragDropLabel = function () {
     return (
-        <div className="align-items-center">
+        <div id="drag_drop_tag" className="align-items-center">
             <span><i className="fa fa-upload fa-5x" aria-hidden="true"></i></span>
             <h3>Drag and drop image</h3>
         </div>

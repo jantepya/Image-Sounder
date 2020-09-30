@@ -18,8 +18,12 @@ export default class AudioControls extends React.Component {
         this.$waveform = this.$el.querySelector('.wave')
         this.wavesurfer = WaveSurfer.create({
             container: this.$waveform,
-            waveColor: 'violet',
-            progressColor: 'purple'
+            waveColor: 'grey',
+            progressColor: 'hsla(200, 100%, 30%, 0.5)',
+            cursorColor: 'blue',
+            height: 80,
+            responsive: true,
+            normalize: true,
         });
     }
     
