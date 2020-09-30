@@ -124,7 +124,7 @@ export default class App extends React.Component {
             <div className="App container main text-center">
                 <header>
                     <a href="https://jonmadethings.com">
-                        <img src="/img/logo.png" height="28" style={{ float: "right" }} alt="" />
+                        <img src="/img/logo.png" height="28" style={{ float: "left" }} alt="" />
                     </a>
                     <a href="https://github.com/jantepya/Image-Sounder">
                         <i className="fa fa-github" aria-hidden="true" style={{ float: "right" }} />
