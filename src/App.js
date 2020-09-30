@@ -49,10 +49,10 @@ export default class App extends React.Component {
             img: null,
             loadProgress: 0,
             audioURL: null,
-        }    
+        }
     }
 
-    componentDidMount = function() {
+    componentDidMount = function () {
         this.settings = React.createRef();
         this.worker = new WebWorker(AudioWorker);
         this.worker.addEventListener("message", this.handleConversionProgress);
@@ -85,7 +85,7 @@ export default class App extends React.Component {
                     audioURL: url,
                     loadProgress: 100,
                 });
-            } 
+            }
             catch (event) {
                 console.log("Image Sounder: onload error");
             }
@@ -145,7 +145,13 @@ export default class App extends React.Component {
                     ConvertButtonEnabled={this.state.img !== null}
                 />
 
-                <Settings ref={this.settings}/>
+                <Settings ref={this.settings} />
+
+                <hr />
+
+                <footer>
+                    <div className="text-center py-3">2020 Jon</div>
+                </footer>
             </div>
         )
     };
