@@ -26,7 +26,7 @@ export default class Settings extends React.Component {
         return (
             <Accordion>
                 <Card>
-                    <a href="/#">
+                    <a href="./#">
                         <Accordion.Toggle as={Card.Header} eventKey="0">
                             Settings for nerds
                         </Accordion.Toggle>
