@@ -56,7 +56,7 @@ export default class AudioControls extends React.Component {
                 <hr />
 
                 <button disabled={!isAudioEnabled} className="btn btn-primary btn-lg " onClick={this.handleTogglePlay}><i className="fa fa-play" aria-hidden="true"></i></button>
-                <button disabled={!this.props.isImgLoaded} className="btn btn-primary btn-lg " onClick={this.onConvertClicked}>Convert</button>
+                <button disabled={!this.props.ConvertButtonEnabled} className="btn btn-primary btn-lg " onClick={this.onConvertClicked}>Convert</button>
 
                 {download}
 

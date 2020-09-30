@@ -142,7 +142,7 @@ export default class App extends React.Component {
                 <AudioControls
                     onConvertClicked={this.convertImageToAudio}
                     audioURL={this.state.audioURL}
-                    isImgLoaded={this.state.img != null}
+                    ConvertButtonEnabled={this.state.img !== null}
                 />
 
                 <Settings ref={this.settings}/>
