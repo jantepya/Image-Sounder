@@ -7,9 +7,6 @@ import WebWorker from './workerSetup.js';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './App.css';
 
-const WIDTH = 440;
-const HEIGHT = 400;
-
 const grayscaleImage = function (imageData) {
     var newImageData = new ImageData(imageData.width, imageData.height);
     var bufferSize = 4 * imageData.width * imageData.height;
@@ -35,11 +32,13 @@ const grayscaleImage = function (imageData) {
     return newImageData;
 }
 
-const getImageData = function (imgData, width, height) {
+const getImageData = function (imgData) {
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
-    context.drawImage(imgData, 0, 0, width, height);
-    return context.getImageData(0, 0, width, height);
+    context.canvas.width = imgData.width;
+    context.canvas.height = imgData.height;
+    context.drawImage(imgData, 0, 0);
+    return context.getImageData(0, 0, imgData.width, imgData.height);
 }
 
 export default class App extends React.Component {
@@ -50,8 +49,10 @@ export default class App extends React.Component {
             img: null,
             loadProgress: 0,
             audioURL: null,
-        }
-    
+        }    
+    }
+
+    componentDidMount = function() {
         this.settings = React.createRef();
         this.worker = new WebWorker(AudioWorker);
         this.worker.addEventListener("message", this.handleConversionProgress);
@@ -107,8 +108,8 @@ export default class App extends React.Component {
         }
 
         if (this.state.img && this.settings?.current) {
-            var imageData = getImageData(this.state.img, WIDTH, HEIGHT)
-            var grayBitmap = grayscaleImage(imageData)
+            var imageData = getImageData(this.state.img);
+            var grayBitmap = grayscaleImage(imageData);
 
             var data = this.settings.current.state;
             data.bitmap = grayBitmap;
