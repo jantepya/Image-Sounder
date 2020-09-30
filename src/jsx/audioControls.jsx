@@ -10,14 +10,13 @@ export default class AudioControls extends React.Component {
             pos: 0,
         };
 
-        this.wrapper = React.createRef();
+        this.audioWrapper = React.createRef();
     }
 
     componentDidMount = function() {
-        this.$el = this.wrapper.current;
-        this.$waveform = this.$el.querySelector('.wave')
+        this.$el = this.audioWrapper.current;
         this.wavesurfer = WaveSurfer.create({
-            container: this.$waveform,
+            container: this.$el,
             waveColor: 'grey',
             progressColor: 'hsla(200, 100%, 30%, 0.5)',
             cursorColor: 'blue',
@@ -52,9 +51,7 @@ export default class AudioControls extends React.Component {
 
         return (
             <div>
-                <div ref={this.wrapper}>
-                    <div className='wave'></div>
-                </div>
+                <div ref={this.audioWrapper} />
 
                 <hr />
 
