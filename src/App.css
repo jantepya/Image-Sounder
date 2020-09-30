@@ -5,7 +5,6 @@ header {
 	height:28px;
 }
 
-
 .custom-file-input:hover {
 	cursor: pointer;
 	opacity: 0;
@@ -14,6 +13,7 @@ header {
 .custom-file {
 	opacity: 0.7;
 }
+
 #drag_drop_tag {
 	margin-top: 25px;
 }
@@ -23,8 +23,6 @@ input[type=number] {
 }
 
 #drop_zone {
-	/* color : white; */
-	/* border: 3px solid #007bff; */
 	border-width: 2px;
 	border-radius: 5px;
 	border-bottom-left-radius: 15px;
@@ -32,7 +30,6 @@ input[type=number] {
 	width:  100%;
 	height: 200px;
 	max-height: 400px;
-	/* background-color: #007bff; */
 }
 
 #user_loaded_image {
@@ -41,32 +38,11 @@ input[type=number] {
 	padding-bottom: 15px;
 }
 
-.main {
+.App {
 	max-width: 500px;
 }
 
 .card-header.active {
 	color: white;
 	background-color: #007bff;
-}
-
-#progress_status {
-	float:right;
-}
-
-#waveform {
-	position:relative
-
-}
-#progress_bar {
-	float:left;
-	position:absolute;
-	top:calc(100% - 25px);
-	width:0%;
-	height:20px;
-	background-color: #28a745;
-	border-radius:5px;
-	font-size: 0.8em;
-	font-weight: 700;
-	/* color:white; */
 }
