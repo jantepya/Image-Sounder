@@ -1,11 +1,19 @@
 import React from 'react';
 
 export default class Settings extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
         this.state = {
-
+            sampleRate: 44100,
+            time: 2,
+            minfreq: 200,
+            maxfreq: 22000,
+            depth: 2
         }
+    }
+
+    getState = function() {
+        return this.state;
     }
 
     validateDecimal = function (event) {

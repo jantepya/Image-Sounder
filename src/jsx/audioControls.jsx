@@ -1,5 +1,4 @@
-
-import React, {createRef } from 'react';
+import React from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
 export default class AudioControls extends React.Component {
@@ -10,6 +9,8 @@ export default class AudioControls extends React.Component {
             playing: false,
             pos: 0,
         };
+
+        this.wrapper = React.createRef();
     }
 
     componentDidMount = function() {
@@ -32,14 +33,12 @@ export default class AudioControls extends React.Component {
         this.props.onConvertClicked();
     }
 
-    wrapper = createRef();
-
     render = function () {
 
         var isAudioEnabled = this.props.audioURL !== null;
 
         var download = isAudioEnabled 
-            ? <a href={this.props.audioURL} className="btn btn-success btn-lg text-white"><i className="fa fa-download" aria-hidden="true" /> </a> 
+            ? <a download href={this.props.audioURL} className="btn btn-success btn-lg text-white"><i className="fa fa-download" aria-hidden="true" /> </a> 
             : null;
 
         if (this.wavesurfer && this.props.audioURL)

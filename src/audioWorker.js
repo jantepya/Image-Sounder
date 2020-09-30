@@ -4,7 +4,7 @@ export default function() {
 
         var audio_data = generate_audio_data(e.data);
 
-        var wave_file = generate_wave(audio_data, e.data.wavrate);
+        var wave_file = generate_wave(audio_data, e.data.sampleRate);
 
         console.log(performance.now() - t0, "milliseconds");
 
@@ -16,7 +16,7 @@ export default function() {
         var img_data = iniData["bitmap"].data;
         var width = iniData["bitmap"].width;
         var height = iniData["bitmap"].height;
-        var sampleRate = parseFloat(iniData["wavrate"]);
+        var sampleRate = parseFloat(iniData["sampleRate"]);
         var duration = parseFloat(iniData["time"]);
         var minfreq = parseFloat(iniData["minfreq"]);
         var maxfreq = parseFloat(iniData["maxfreq"]);

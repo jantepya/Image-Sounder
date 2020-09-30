@@ -2,7 +2,7 @@ import React from 'react';
 import AudioControls from './jsx/audioControls.jsx';
 import ImageDrop from './jsx/imageDrop.jsx';
 import Settings from './jsx/settings.jsx';
-import audioWorker from './audioWorker.js';
+import AudioWorker from './audioWorker.js';
 import WebWorker from './workerSetup.js';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './App.css';
@@ -52,12 +52,30 @@ export default class App extends React.Component {
             audioURL: null,
         }
     
-        this.worker = new WebWorker(audioWorker);
+        this.settings = React.createRef();
+        this.worker = new WebWorker(AudioWorker);
         this.worker.addEventListener("message", this.handleConversionProgress);
+        this.worker.addEventListener("error", this.handleConversionError);
+    }
+
+    handleConversionError = (event) => {
+        console.log(event);
     }
 
     handleConversionProgress = (event) => {
-        if (event.data.status === "ok") {
+        if (event.data.status === "progress") {
+            try {
+                if (event.data.progress % 10 === 0) {
+                    this.setState({
+                        loadProgress: event.data.progress
+                    });
+                }
+            }
+            catch (event) {
+                console.log("Image Sounder: onprogress error");
+            }
+        }
+        else if (event.data.status === "ok") {
             try {
                 var audioBlob = event.data.data;
                 var url = URL.createObjectURL(audioBlob);
@@ -68,16 +86,6 @@ export default class App extends React.Component {
             } 
             catch (event) {
                 console.log("Image Sounder: onload error");
-            }
-        }
-        else if (event.data.status === "progress") {
-            try {
-                this.setState({
-                    loadProgress: event.data.progress
-                });
-            } 
-            catch (event) {
-                console.log("Image Sounder: onprogress error");
             }
         }
     }
@@ -98,18 +106,12 @@ export default class App extends React.Component {
             return;
         }
 
-        if (this.state.img) {
+        if (this.state.img && this.settings?.current) {
             var imageData = getImageData(this.state.img, WIDTH, HEIGHT)
             var grayBitmap = grayscaleImage(imageData)
 
-            var data = {
-                bitmap: grayBitmap,
-                wavrate: 44100,
-                time: 2,
-                minfreq: 200,
-                maxfreq: 22000,
-                depth: 2,
-            }
+            var data = this.settings.current.state;
+            data.bitmap = grayBitmap;
 
             this.worker.postMessage(data);
         }
@@ -131,7 +133,7 @@ export default class App extends React.Component {
                     onImageLoaded={this.onImageLoaded}
                 />
 
-                <ProgressBar animated now={this.state.loadProgress} label={`${this.state.loadProgress}%`} />
+                <ProgressBar animated now={this.state.loadProgress} max="100" />
 
                 <br />
 
@@ -141,7 +143,7 @@ export default class App extends React.Component {
                     isImgLoaded={this.state.img != null}
                 />
 
-                <Settings />
+                <Settings ref={this.settings}/>
             </div>
         )
     };

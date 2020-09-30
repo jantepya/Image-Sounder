@@ -10,7 +10,7 @@ const DragDropLabel = function () {
 }
 
 export default class ImageDrop extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
         this.state = {
             imageSrc: "",
