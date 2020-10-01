@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "97af9e471633d436fa770a8f16f01e88",
+    "revision": "b6e9e0af304b037be0de602b1c8115b9",
     "url": "/Image-Sounder/index.html"
   },
   {
-    "revision": "5bb866f2d686f97b14c2",
-    "url": "/Image-Sounder/static/css/main.a117158e.chunk.css"
+    "revision": "b675ff72ec0bc5591db7",
+    "url": "/Image-Sounder/static/css/main.ab7b7fc3.chunk.css"
   },
   {
     "revision": "3115d989797063650c0e",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Image-Sounder/static/js/2.0a9c693f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5bb866f2d686f97b14c2",
-    "url": "/Image-Sounder/static/js/main.74afea35.chunk.js"
+    "revision": "b675ff72ec0bc5591db7",
+    "url": "/Image-Sounder/static/js/main.b6211fa2.chunk.js"
   },
   {
     "revision": "f68a2bc79da5e042156a",
