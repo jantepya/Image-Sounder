@@ -1,8 +1,6 @@
 # Image Sounder
 
-Javascript web application for converting images to audio. The app interprets images as if they were spectrograms and generates .WAV files accordingly.
-
-Haven't you ever wondered what your images sound like?
+Javascript web application for converting images to audio. The app interprets images as if they were spectrograms and generates .WAV files accordingly. All data is processed directly in the browser, no back-end required.
 
 ## Try it out:
 https://jonmadethings.com/Image-Sounder/
