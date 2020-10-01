@@ -49,6 +49,7 @@ export default class App extends React.Component {
             img: null,
             loadProgress: 0,
             audioURL: null,
+            isConverting: false,
         }
     }
 
@@ -84,6 +85,7 @@ export default class App extends React.Component {
                 this.setState({
                     audioURL: url,
                     loadProgress: 100,
+                    isConverting: false
                 });
             }
             catch (event) {
@@ -115,6 +117,10 @@ export default class App extends React.Component {
             var data = this.settings.current.state;
             data.bitmap = grayBitmap;
 
+            this.setState({
+                isConverting: true
+            });
+
             this.worker.postMessage(data);
         }
     }
@@ -142,7 +148,7 @@ export default class App extends React.Component {
                 <AudioControls
                     onConvertClicked={this.convertImageToAudio}
                     audioURL={this.state.audioURL}
-                    ConvertButtonEnabled={this.state.img !== null}
+                    ConvertButtonEnabled={this.state.img !== null && !this.state.isConverting}
                 />
 
                 <Settings ref={this.settings} />
