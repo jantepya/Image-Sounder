@@ -26,12 +26,11 @@ export default class Settings extends React.Component {
         return (
             <Accordion>
                 <Card>
-                    <a href="./#">
+                    <div className="settingsToggle">
                         <Accordion.Toggle as={Card.Header} eventKey="0">
                             Settings for nerds
                         </Accordion.Toggle>
-                    </a>
-
+                    </div>
                     <Accordion.Collapse eventKey="0">
                         <Card.Body>
                             <table className="table">

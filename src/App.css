@@ -42,7 +42,11 @@ input[type=number] {
 	max-width: 500px;
 }
 
-.card-header.active {
+.settingsToggle {
+	cursor:pointer;
+}
+
+.settingsToggle:hover {
 	color: white;
 	background-color: #007bff;
 }
