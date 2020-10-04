@@ -7,6 +7,12 @@ import WebWorker from './workerSetup.js';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './App.css';
 
+const MAX_WIDTH = 1200;
+const MAX_HEIGHT = 900;
+
+/**
+ * @param {ImageData} imageData 
+ */
 const grayscaleImage = function (imageData) {
     var newImageData = new ImageData(imageData.width, imageData.height);
     var bufferSize = 4 * imageData.width * imageData.height;
@@ -32,13 +38,16 @@ const grayscaleImage = function (imageData) {
     return newImageData;
 }
 
-const getImageData = function (imgData) {
+/**
+ * @param {Image} image 
+ */
+const getImageData = function (image) {
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
-    context.canvas.width = imgData.width;
-    context.canvas.height = imgData.height;
-    context.drawImage(imgData, 0, 0);
-    return context.getImageData(0, 0, imgData.width, imgData.height);
+    canvas.width = image.width > MAX_WIDTH ? MAX_WIDTH : image.width;
+    canvas.height = image.height > MAX_HEIGHT ? MAX_HEIGHT : image.height;
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    return context.getImageData(0, 0, canvas.width, canvas.height);
 }
 
 export default class App extends React.Component {
@@ -69,7 +78,8 @@ export default class App extends React.Component {
             try {
                 if (event.data.progress === 0 || event.data.progress % 10 === 0) {
                     this.setState({
-                        loadProgress: event.data.progress,
+                        // Adding 10 to account for delay
+                        loadProgress: event.data.progress + 10,
                         audioURL: null,
                     });
                 }
@@ -84,7 +94,7 @@ export default class App extends React.Component {
                 var url = URL.createObjectURL(audioBlob);
                 this.setState({
                     audioURL: url,
-                    loadProgress: 100,
+                    loadProgress: 0,
                     isConverting: false
                 });
             }
@@ -111,15 +121,15 @@ export default class App extends React.Component {
         }
 
         if (this.state.img && this.settings?.current) {
+            this.setState({
+                isConverting: true
+            });
+
             var imageData = getImageData(this.state.img);
             var grayBitmap = grayscaleImage(imageData);
 
             var data = this.settings.current.state;
             data.bitmap = grayBitmap;
-
-            this.setState({
-                isConverting: true
-            });
 
             this.worker.postMessage(data);
         }
@@ -141,7 +151,7 @@ export default class App extends React.Component {
                     onImageLoaded={this.onImageLoaded}
                 />
 
-                <ProgressBar now={this.state.loadProgress} label={this.state.loadProgress + "%"} />
+                {this.state.isConverting ? <ProgressBar now={this.state.loadProgress} label={this.state.loadProgress + "%"} /> : null}
 
                 <br />
 
