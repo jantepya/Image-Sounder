@@ -7,8 +7,8 @@ import WebWorker from './workerSetup.js';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import './App.css';
 
-const MAX_WIDTH = 1200;
-const MAX_HEIGHT = 900;
+const MAX_WIDTH = 700;
+const MAX_HEIGHT = 500;
 
 /**
  * @param {ImageData} imageData 
